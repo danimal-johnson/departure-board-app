@@ -6,7 +6,7 @@ export default function Home() {
 
       <h1 className={styles.title}>Favorites</h1>
       <p className={styles.p}>
-        Soon, you'll be able to create and view your most-used departure boards here!
+        Soon, you will be able to create and view your most-used departure boards here!
       </p>
 
       <div className={styles.card}>
