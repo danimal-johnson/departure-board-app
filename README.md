@@ -1,20 +1,30 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Departure Boards
+
+A front-end interface to view the departure boards of your regular transit stops without actually having to be there in person.
 
 ## Getting Started
 
 First, run the development server:
 
 ```bash
+# during development
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+# create a release build
+npm run build
+# serve the release build version
+npm run start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Status
+
+- [x] Created app with home and favorites pages
+- [x] Retrieving data from API.
+- [x] Deployed live at [https://ltd-departures.vercel.app](https://ltd-departures.vercel.app)
+- [ ] Add "About" page with FAQ
+- [ ] Add status alerts
+- [ ] Break out status boards into their own client components.
 
 This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
 

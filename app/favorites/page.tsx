@@ -1,9 +1,17 @@
 import styles from './page.module.css';
 
-export default function Home() {
+export default function Favorites() {
+  // TODO: Add favorites to local storage
+  const favorites = [
+    { // Springfield Station Bay G
+      stop_id: "02507",
+    },
+    { // Eugene Station Bay T
+      stop_id: "02120",
+    },
+  ]
   return (
     <div className={styles.description}>
-
       <h1 className={styles.title}>Favorites</h1>
       <p className={styles.p}>
         Soon, you will be able to create and view your most-used departure boards here!
@@ -37,7 +45,7 @@ export default function Home() {
           </li>
           <li>
             <a href="https://transit-board-be.up.railway.app/api/departures?stop=02120&date=20230626">
-              EMX Eugene Station Bay U -&gt; Springfield Station (weekday)
+              EMX Eugene Station Bay T -&gt; Springfield Station (weekday)
             </a>
           </li>
 

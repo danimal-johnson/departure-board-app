@@ -2,42 +2,67 @@ import Image from 'next/image';
 import styles from './page.module.css';
 import Link from 'next/link';
 
-export default function Home() {
+type ServiceInfo = { 
+  agency_id?: string;
+  name?: string;
+  url?: string;
+  timezone?: string;
+  language?: string;
+  start_date?: string;
+  end_date?: string;
+  utc_time?: string;
+  server_time?: string;
+  local_time?: string;
+};
+
+type Favorite = {
+  stop_id: string;
+  route_id?: string;
+}
+
+async function getServiceInfo() {
+  const res = await fetch('https://transit-board-be.up.railway.app/api/info',
+    { next: { tags: ['schedule'] } }
+  );
+  return res.json();
+}
+
+export default async function Home() {
+  let now = new Date();
+  let serviceInfo: ServiceInfo = await getServiceInfo();
+  let errorStatus = false;
+
+  fetch('https://transit-board-be.up.railway.app/api/info')
+    .then(res => res.json())
+    .then(data => {
+      serviceInfo = data;
+      console.log(serviceInfo);
+    })
+    .catch(err => {
+      console.log(err);
+      errorStatus = true;
+    });
+
   return (
     <main className={styles.main}>
       <div className={styles.description}>
         <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.tsx</code>
+          Page last updated:&nbsp;
+          <code className={styles.code}>{now.toLocaleString()}</code>
         </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
       </div>
 
       <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
+        {errorStatus ? (
+          <p className={styles.error}>Error: Could not connect to API.</p>
+        ) : (
+          <div>
+            <h1>Portable Departure Boards</h1>
+            <p>View your transit departure board wherever you are.</p>
+            <h2>Serving {serviceInfo.agency_id} ({serviceInfo.name})</h2>
+            <p>Calendar dates: {serviceInfo.start_date} - {serviceInfo.end_date}</p>
+          </div>
+        )}
       </div>
 
       {/* Favorites */}
