@@ -1,0 +1,108 @@
+/* ---- This should be covered in the global CSS file.
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+* {
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+} 
+----- */
+
+.title {
+  /* border: 2px solid green; */
+  margin-bottom: .5rem;
+  margin-top: 1rem;
+  padding: 5px 5px;
+}
+
+.title h1 {
+  text-wrap: balance; /* New property. Does not break unsupported browsers. */
+}
+
+.card {
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 1rem;
+  padding: 5px 5px;
+  background-color: lightsteelblue;
+  font-family: Arial, sans-serif;
+  width: 400px;
+}
+
+.card-title {
+  border-bottom: 1px solid black;  
+}
+.card-body {
+  display: grid;
+  grid-columns: 80% 1fr 1fr;
+  color: yellow;
+  background: #333;
+  font-family: text;
+/*   padding: 3px; */
+}
+.card-body > div {
+/*   border: 1px solid; */
+  min-height: 1.3em;
+  padding: 3px;
+}
+.card-body>div:nth-child(6n+2),
+.card-body>div:nth-child(6n+3),
+.card-body>div:nth-child(6n+4)
+{
+/*   background: #1f1f1f; */
+/*   background: gray; */
+  background: black;
+}
+
+/* Temporary data section */
+
+.data {
+  padding: 10px;
+  /* border: 2px solid purple; */
+}
+
+.data ul {
+  list-style: none;
+  padding: 10px;
+  margin: 10px;
+}
+
+
+.datetime {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  color: orange;
+}
+.headsign{
+  grid-column-start: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.remain {
+  grid-column-start: 2;
+}
+.tod {
+  grid-column-start: 3;
+}
+.dep {
+  color: red;
+}
+
+/* Temporary data section */
+
+.data {
+  padding: 10px;
+  border: 2px solid purple;
+}
+
+.data ul {
+  list-style: none;
+  padding: 10px;
+  margin: 10px;
+}
+
+.data li {
+  line-height: 3em;
+}
