@@ -8,11 +8,11 @@
 .card {
   border: 2px solid black;
   border-radius: 5px;
-  margin: 1rem;
+  margin: 1rem .5rem;
   padding: 5px 5px;
   background-color: lightsteelblue;
   font-family: Arial, sans-serif;
-  width: 100%;
+  width: 95%;
   max-width: 450px;
 }
 

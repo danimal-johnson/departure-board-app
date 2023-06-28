@@ -73,6 +73,7 @@ export default function MiniBoard({ stopId }: { stopId: string }) {
 
   // Fetch departure times.
   useEffect(() => {
+    setNextRows(getNextRows(3));
     if (calendarDate === "0") return;
     console.log(`Load stop #${stopId} times for ${calendarDate}`);
     // FIXME: Fetch today's departure times for this stop
@@ -111,8 +112,7 @@ export default function MiniBoard({ stopId }: { stopId: string }) {
     if (minutes === 0) return "(NOW)";
     if (minutes < 60) return `(${minutes} min)`;
     if (minutes < 120) return `(${1}h ${minutes - 60}m)`;
-    if (minutes < 180) return `(${minutes / 60} hrs)`;
-    return `(${minutes} min)`;
+    return `(${Math.floor(minutes / 60)} hrs)`;
   }
 
   return (
@@ -132,21 +132,13 @@ export default function MiniBoard({ stopId }: { stopId: string }) {
           )
         })}
 
-        <div className={styles.headsign}>101 EMX Springfield Station</div>
-        <div className={styles.remain + styles.dep}>DEP</div>
-        <div className={styles.tod}>16:45</div>
-
-        <div className={styles.headsign}>101 EMX &lt;&gt; Springfield via PeaceHealth</div>
-        <div className={styles.remain}>(17 min)</div>
-        <div className={styles.tod}>17:30</div>
-
         <div className={styles.headsign}></div>
         <div className={styles.remain}></div>
         <div className={styles.tod}></div>
 
         <div className={styles.headsign}>Last departure</div>
-        <div className={styles.remain}>(2h)</div>
-        <div className={styles.tod}>{lastDeparture.departure_time}</div>
+        <div className={styles.remain}>{timeRemaining(lastDeparture.departure_time)}</div>
+        <div className={styles.tod}>{lastDeparture.departure_time.slice(0,5)}</div>
       </div>
     </div>
   )
