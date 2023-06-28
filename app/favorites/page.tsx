@@ -49,19 +49,17 @@ export default function Favorites() {
         <h2>Temporary data shortcuts</h2>
         <ul>
           <li>
-            <a href={`${process.env.API_URL}/api/departures?stop=02507&date=20230627`}>
+            <a href={`${process.env.API_URL}/api/departures?stop=02507&date=today`}>
               EMX Springfield Station Bay G -&gt; Eugene Station (weekday)
             </a>
           </li>
           <li>
-            <a href={`${process.env.API_URL}/api/departures?stop=02120&date=20230627`}>
+            <a href={`${process.env.API_URL}/api/departures?stop=02120&date=today`}>
               EMX Eugene Station Bay T -&gt; Springfield Station (weekday)
             </a>
           </li>
-
         </ul>
       </div>
-
     </div>
   );
 }
