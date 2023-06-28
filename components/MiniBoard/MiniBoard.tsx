@@ -23,7 +23,7 @@ const tempTimes = [
   {"departure_time":"23:25:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"101 EmX EUGENE STATION"}
 ];
 
-const timeOptions = {
+const timeOptions: Intl.DateTimeFormatOptions = {
   weekday: 'short',
   year: 'numeric',
   month: 'short',
@@ -53,7 +53,13 @@ export default function MiniBoard({ stopId }: { stopId: string }) {
       "trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"
     }
   ]);
-  const [lastDeparture, setLastDeparture] = useState(tempTimes.slice(-1));
+  const [lastDeparture, setLastDeparture] = useState(
+    {
+      "departure_time":"23:25:00",
+      "stop_headsign":"101 EmX EUGENE STATION",
+      "trip_headsign":"101 EmX EUGENE STATION"
+    }
+  );
 
   // Clock.
   useEffect(() => {
