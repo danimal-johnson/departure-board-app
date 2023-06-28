@@ -1,26 +1,9 @@
-/* ---- This should be covered in the global CSS file.
-*, *::before, *::after {
-  box-sizing: border-box;
-}
-* {
-  margin: 0;
-  padding: 0;
-  font-family: Arial, sans-serif;
-} 
------ */
-
 .title {
   /* border: 2px solid green; */
   margin-bottom: .5rem;
   margin-top: 1rem;
   padding: 5px 5px;
 }
-
-/*
-.title h1 {
-  text-wrap: balance; New property. Does not break unsupported browsers.
-}
-*/
 
 .card {
   border: 2px solid black;
@@ -33,7 +16,9 @@
 }
 
 .card-title {
-  border-bottom: 1px solid black;  
+  color: black;
+  font-weight: bold;
+  border-bottom: 1px solid black;
 }
 .card-body {
   display: grid;
@@ -78,33 +63,4 @@
 }
 .dep {
   color: red;
-}
-
-.boards {
-  /* border: 2px solid yellow; */
-  padding: 10px;
-  margin: 10px;
-}
-
-.boards ul {
-  list-style: none;
-  padding: 10px;
-  margin: 10px;
-}
-/* ---- Temporary data section ---- */
-
-.data {
-  margin: 10px;
-  padding: 10px;
-  /* border: 2px solid purple; */
-}
-
-.data ul {
-  list-style: none;
-  padding: 10px;
-  margin: 10px;
-}
-
-.data li {
-  line-height: 3em;
 }

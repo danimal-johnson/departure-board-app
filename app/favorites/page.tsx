@@ -1,4 +1,5 @@
 import styles from './page.module.css';
+import MiniBoard from '../../components/MiniBoard/MiniBoard';
 
 export default function Favorites() {
   // TODO: Add favorites to local storage
@@ -35,16 +36,25 @@ export default function Favorites() {
           <div className={styles.tod}>21:30</div>
         </div>
       </div>
+      <div className={styles.boards}>
+        <h2>Boards (looping from favorites)</h2>
+        {favorites.map((favorite) => (
+          // <li key={favorite.stop_id}>{favorite.stop_id}</li>
+          // <div key={favorite.stop_id}>
+            <MiniBoard key={favorite.stop_id} stopId={favorite.stop_id} />
+          // </div>
+        ))}
+      </div>
       <div className={styles.data}>
         <h2>Temporary data shortcuts</h2>
         <ul>
           <li>
-            <a href="https://transit-board-be.up.railway.app/api/departures?stop=02507&date=20230626">
+            <a href={`${process.env.API_URL}/api/departures?stop=02507&date=20230627`}>
               EMX Springfield Station Bay G -&gt; Eugene Station (weekday)
             </a>
           </li>
           <li>
-            <a href="https://transit-board-be.up.railway.app/api/departures?stop=02120&date=20230626">
+            <a href={`${process.env.API_URL}/api/departures?stop=02120&date=20230627`}>
               EMX Eugene Station Bay T -&gt; Springfield Station (weekday)
             </a>
           </li>

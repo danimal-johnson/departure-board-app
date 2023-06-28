@@ -21,9 +21,10 @@ type Favorite = {
 }
 
 async function getServiceInfo() {
-  const res = await fetch('https://transit-board-be.up.railway.app/api/info',
+  const res = await fetch(`${process.env.API_URL}/api/info`,
     { next: { tags: ['schedule'] } }
   );
+  // TODO: Handle errors
   return res.json();
 }
 
@@ -31,17 +32,6 @@ export default async function Home() {
   let now = new Date();
   let serviceInfo: ServiceInfo = await getServiceInfo();
   let errorStatus = false;
-
-  fetch('https://transit-board-be.up.railway.app/api/info')
-    .then(res => res.json())
-    .then(data => {
-      serviceInfo = data;
-      console.log(serviceInfo);
-    })
-    .catch(err => {
-      console.log(err);
-      errorStatus = true;
-    });
 
   return (
     <main className={styles.main}>
