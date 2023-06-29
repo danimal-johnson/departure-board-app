@@ -1,26 +1,16 @@
 "use client";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styles from './MiniBoard.module.css';
 
-// TODO: Use API
-const tempTimes = [
-  {"departure_time":"06:12:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
-  {"departure_time":"06:21:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"101 EmX EUGENE STATION"},
-  {"departure_time":"06:41:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
-  {"departure_time":"06:55:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
-  {"departure_time":"07:06:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
-  {"departure_time":"07:12:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
-  {"departure_time":"07:26:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
-  {"departure_time":"07:37:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
-  {"departure_time":"20:56:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
-  {"departure_time":"21:10:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
-  {"departure_time":"21:26:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
-  {"departure_time":"21:40:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
-  {"departure_time":"21:56:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"101 EmX EUGENE STATION"},
-  {"departure_time":"22:10:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
-  {"departure_time":"22:26:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"101 EmX EUGENE STATION"},
-  {"departure_time":"22:55:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
-  {"departure_time":"23:25:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"101 EmX EUGENE STATION"}
+// TODO: Use API instead of this import of static data
+import { tempTimes } from '../../lib/data';
+
+const initialDisplay = [
+  {
+    "departure_time":"06:12:00",
+    "stop_headsign":"Loading...",
+    "trip_headsign":"Loading..."
+  }
 ];
 
 const timeOptions: Intl.DateTimeFormatOptions = {
@@ -40,19 +30,14 @@ type Departure = {
   trip_headsign: string;
 }
 
-export default function MiniBoard({ stopId }: { stopId: string }) {
+export default function MiniBoard(
+  { stopId, stopName }: { stopId: string, stopName: string }) {
 
   const [timeString, setTimeString] = useState<string>("");
   const [calendarDate, setCalendarDate] = useState<string>("0");
   // FIXME: Use Departure type?
   const [departureTimes, setDepartureTimes] = useState(tempTimes);
-  const [nextRows, setNextRows] = useState([
-    {
-      "departure_time":"06:12:00",
-      "stop_headsign":"101 EmX EUGENE STATION",
-      "trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"
-    }
-  ]);
+  const [nextRows, setNextRows] = useState(initialDisplay);
   const [lastDeparture, setLastDeparture] = useState(
     {
       "departure_time":"23:25:00",
@@ -60,7 +45,7 @@ export default function MiniBoard({ stopId }: { stopId: string }) {
       "trip_headsign":"101 EmX EUGENE STATION"
     }
   );
-  // const rowsNeedUpdating = useRef(false);
+  const rowsNeedUpdating = useRef(false);
 
   // Clock.
   useEffect(() => {
@@ -81,9 +66,18 @@ export default function MiniBoard({ stopId }: { stopId: string }) {
     // const times = getDepartureTimes(stopId)
     const times = tempTimes;
     setDepartureTimes(tempTimes);
+    rowsNeedUpdating.current = true;
   }, [calendarDate, stopId]);
 
+  // FIXME: update the rows without triggering a re-render
+  // useEffect(() => {
+  //   if (rowsNeedUpdating.current) {
+  //     setNextRows(getNextRows(3));
+  //   }
+  // }, [getNextRows, rowsNeedUpdating]);
+
   function getNextRows(numRows: number) {
+    rowsNeedUpdating.current = false;
     const time = new Date().toLocaleTimeString('en-US', 
     { hour12: false,
       hour: 'numeric',
@@ -118,7 +112,7 @@ export default function MiniBoard({ stopId }: { stopId: string }) {
 
   return (
     <div className={styles.card}>
-      <div className={styles["card-title"]}>Stop ID: {stopId}</div>
+      <div className={styles["card-title"]}>{stopName} ({stopId})</div>
       <div className={styles["card-body"]}>
 
         <div className={styles.datetime}>{timeString}</div>
