@@ -60,6 +60,7 @@ export default function MiniBoard({ stopId }: { stopId: string }) {
       "trip_headsign":"101 EmX EUGENE STATION"
     }
   );
+  // const rowsNeedUpdating = useRef(false);
 
   // Clock.
   useEffect(() => {
@@ -68,7 +69,7 @@ export default function MiniBoard({ stopId }: { stopId: string }) {
       setTimeString(now);
       setCalendarDate(now.split(" ")[2]); // Trigger an API fetch every day
     }, 1000);
-    console.log(getNextRows(3));
+    return () => clearInterval(timer);
   }, []);
 
   // Fetch departure times.
