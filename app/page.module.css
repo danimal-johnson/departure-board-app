@@ -80,6 +80,14 @@
   padding: 4rem 0;
 }
 
+.blurb {
+  margin-bottom: 4em;
+}
+
+.blurb p {
+  text-align: center;
+}
+
 .center::before {
   background: var(--secondary-glow);
   border-radius: 50%;

@@ -99,6 +99,7 @@ export default function MiniBoard(
   }
 
   function timeRemaining(time: string) {
+    if (time === "") return "";
     const now = new Date();
     const then = new Date(now.toDateString() + " " + time);
     const diff = then.getTime() - now.getTime();

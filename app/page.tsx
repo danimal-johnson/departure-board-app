@@ -47,10 +47,14 @@ export default async function Home() {
           <p className={styles.error}>Error: Could not connect to API.</p>
         ) : (
           <div>
-            <h1>Portable Departure Boards</h1>
-            <p>View your transit departure board wherever you are.</p>
-            <h2>Serving {serviceInfo.agency_id} ({serviceInfo.name})</h2>
-            <p>Calendar dates: {serviceInfo.start_date} - {serviceInfo.end_date}</p>
+            <div className={styles.blurb}>
+              <h1>Portable Departure Boards</h1>
+              <p>View your transit departure board wherever you are.</p>
+            </div>
+            <div className={styles.blurb}>
+              <h2>Serving {serviceInfo.agency_id} ({serviceInfo.name})</h2>
+              <p>Calendar dates: {serviceInfo.start_date} - {serviceInfo.end_date}</p>
+            </div>
           </div>
         )}
       </div>
