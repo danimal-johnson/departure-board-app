@@ -12,6 +12,12 @@ export const getStaticTimes = async () => {
   return tempTimes;
 }
 
+// Simulate a network request
+export const getStaticAlerts = async () => {
+  await delay(1000);
+  return tempAlertFeed;
+}
+
 // This currently contains all Springfield weekday departure times
 export const tempTimes = [
 {"departure_time":"06:12:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
@@ -96,3 +102,5 @@ export const tempTimes = [
 {"departure_time":"22:55:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
 {"departure_time":"23:25:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"101 EmX EUGENE STATION"}
 ];
+
+export const tempAlertFeed = {"version":"https://jsonfeed.org/version/1","title":"LTD Service Alerts Feed","home_page_url":"https://www.ltd.org/service_alerts_rss.php","description":"LTD service alerts updates","items":[{"guid":"https://www.ltd.org/service_alerts_rss.php","url":"https://www.ltd.org/service-alerts/?1784","title":"EmX - Construction Detour","content_html":"Due to construction, EmX will not serve the bus stop on 10th Ave. &amp; High Street until June 30. Please proceed to the alternate stop at 11th Ave. &amp; Hilyard Street.","summary":"Due to construction, EmX will not serve the bus stop on 10th Ave. &amp; High Street until June 30. Please proceed to the alternate stop at 11th Ave. &amp; Hilyard Street."},{"guid":"https://www.ltd.org/service_alerts_rss.php","url":"https://www.ltd.org/service-alerts/?1783","title":"Routes 12, 13, 24, 91, and 96: Construction Detour","content_html":"Due to construction, Routes 12, 13, 24, 91, and 96 will not serve the bus stop on 8th Ave. between Oak and Willamette, beginning June 1 through project completion. For routes 12, 13, 91, and 96, please proceed to the alternate stop on 8th Ave. &amp; High Street. For route 24, please proceed to Oak St. &amp; Broadway.","summary":"Due to construction, Routes 12, 13, 24, 91, and 96 will not serve the bus stop on 8th Ave. between Oak and Willamette, beginning June 1 through project completion. For routes 12, 13, 91, and 96, please proceed to the alternate stop on 8th Ave. &amp; High Street. For route 24, please proceed to Oak St. &amp; Broadway."},{"guid":"https://www.ltd.org/service_alerts_rss.php","url":"https://www.ltd.org/service-alerts/?1779","title":"Saturday Market Detour - Routes 12, 13, 40, 66, 91, 95, and 96","content_html":"Due to the Saturday Market, Routes 12, 13, 40, 66, 91, 95, and 96 will not be able to serve bus stops on Oak St. between 11th and 5th Ave. on Saturdays from 7:00 AM to 6:00 PM. For buses leaving Eugene Station, use alternate stops on High Street. For buses arriving at Eugene Station, use alternate stops on Pearl Street.","summary":"Due to the Saturday Market, Routes 12, 13, 40, 66, 91, 95, and 96 will not be able to serve bus stops on Oak St. between 11th and 5th Ave. on Saturdays from 7:00 AM to 6:00 PM. For buses leaving Eugene Station, use alternate stops on High Street. For buses arriving at Eugene Station, use alternate stops on Pearl Street."},{"guid":"https://www.ltd.org/service_alerts_rss.php","url":"https://www.ltd.org/service-alerts/?1504","title":"EmGo - Service Canceled Until Further Notice","content_html":"EmGo services are canceled until further notice.","summary":"EmGo services are canceled until further notice."}]};
