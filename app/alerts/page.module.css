@@ -1,0 +1,30 @@
+
+.pageTitle {
+  /* border: 2px solid green; */
+  margin-bottom: .5rem;
+  margin-top: 1rem;
+  padding: 5px 5px;
+  color: orange;
+}
+
+.pageDesc {
+  /* border: 2px solid green; */
+  margin-bottom: .5rem;
+  margin-top: 1rem;
+  padding: 5px 5px;
+}
+
+.alert {
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 1rem .5rem;
+  padding: 5px 5px;
+  color: black;
+  background-color: yellow;
+  font-family: Arial, sans-serif;
+  width: 95%;
+}
+
+.alertTitle {
+  margin-bottom: .5rem;
+}
