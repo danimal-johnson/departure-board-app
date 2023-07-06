@@ -1,11 +1,12 @@
-// import { NextRequest, NextResponse } from 'next/server';
-
 import styles from './page.module.css';
+
+// TODO: Use API instead of this import of static data
+import { tempAlertFeed } from '../../lib/data';
 
 async function getAlerts() {
   // FIXME: Not working: const res = await fetch("/api/alerts");
-  const res = await fetch(`http://localhost:3000/api/alerts`);
-  return res.json();
+  // Only works in dev: const res = await fetch(`http://localhost:3000/api/alerts`);
+  return tempAlertFeed;
 }
 
 export default async function Alerts() {
