@@ -78,19 +78,19 @@ export default function MiniBoard(
 
   function getNextRows(numRows: number) {
     rowsNeedUpdating.current = false;
-    const time = new Date().toLocaleTimeString('en-US', 
+    const currentTime = new Date().toLocaleTimeString('en-US', 
     { hour12: false,
       hour: 'numeric',
       minute: 'numeric',
       second: 'numeric'
     })
-    const allRows = departureTimes.filter((row) => row.departure_time > time);
-    const rows = allRows.slice(0, numRows);
+    const remainingRows = departureTimes.filter((row) => row.departure_time > currentTime);
+    const nextRows = remainingRows.slice(0, numRows);
     // Fill empty rows with empty strings
-    while (rows.length < numRows) {
-      rows.push({departure_time: "", stop_headsign: "", trip_headsign: ""});
+    while (nextRows.length < numRows) {
+      nextRows.push({departure_time: "", stop_headsign: "", trip_headsign: ""});
     }
-    return rows;
+    return nextRows;
   }
 
   function getLastDeparture() {
@@ -104,6 +104,10 @@ export default function MiniBoard(
     const then = new Date(now.toDateString() + " " + time);
     const diff = then.getTime() - now.getTime();
     const minutes = Math.floor(diff / 1000 / 60);
+    if (minutes < -2) {
+      rowsNeedUpdating.current = true;
+      setNextRows(getNextRows(3));
+    }
     if (minutes < 0) return "(DEP)";
     if (minutes === 0) return "(NOW)";
     if (minutes < 60) return `(${minutes} min)`;
