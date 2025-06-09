@@ -61,12 +61,16 @@ export default function MiniBoard(
 
   // Fetch initial departure times.
   useEffect(() => {
+    console.log('Initial load for stop:', stopId);
     getDepartureTimes(stopId)
       .then((times) => {
-        console.log(`Fetched departure times for stop ${stopId}:`, times);
+        // console.log(`Fetched departure times for stop ${stopId}:`, times);
         setDepartureTimes(times);
         setLastDeparture(times.slice(-1)[0]);
         setNextRows(getNextRows(3));
+      })
+      .then(() => {
+        rowsNeedUpdating.current = true;
       })
       .catch((error) => {
         console.error(`Error fetching departure times for stop ${stopId}:`, error);
@@ -75,7 +79,6 @@ export default function MiniBoard(
         setNextRows(getNextRows(3));
       });
 
-    rowsNeedUpdating.current = true;
   }, []);
 
   // FIXME: update the rows without triggering a re-render
@@ -104,8 +107,8 @@ export default function MiniBoard(
     })
     const remainingRows = departureTimes.filter((row) => row.departure_time > currentTime);
     const nextRows = remainingRows.slice(0, numRows);
-    console.log(`remainingRows = ${remainingRows.length}, nextRows = ${nextRows.length}`);
-    console.log(`Next ${numRows} rows for stop ${stopId}:`, nextRows);
+    // console.log(`totalRows = ${departureTimes.length}, remainingRows = ${remainingRows.length}, nextRows = ${nextRows.length}`);
+    // console.log(`Next ${numRows} rows for stop ${stopId}:`, nextRows);
     // Fill empty rows with empty strings
     while (nextRows.length < numRows) {
       nextRows.push({departure_time: "", stop_headsign: "", trip_headsign: ""});
@@ -176,7 +179,7 @@ async function getDepartureTimes(stopId: string) {
     // .split('').reverse().join('');
   // console.log(`Fetching ${stopId} times for ${now}`);
   // Fetch the actual data from the API
-  console.log(`Data: ${data}`);
+  // console.log(`Data: ${data}`);
 
   return data;
 }
