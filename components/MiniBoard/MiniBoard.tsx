@@ -1,9 +1,11 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
 import styles from './MiniBoard.module.css';
+import { get } from 'http';
 
-// TODO: Use API instead of this import of static data
-import { tempTimes } from '../../lib/data';
+const tempTimes = [
+  {"departure_time":"06:12:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
+];
 
 const initialDisplay = [
   {
@@ -23,7 +25,7 @@ const timeOptions: Intl.DateTimeFormatOptions = {
   minute: 'numeric',
 }
 
-// TODO: Use Interface, type, or just discard this?
+// TODO: Keep this?
 type Departure = {
   departure_time: string;
   stop_headsign: string;
@@ -33,8 +35,8 @@ type Departure = {
 export default function MiniBoard(
   { stopId, stopName }: { stopId: string, stopName: string }) {
 
-  const [timeString, setTimeString] = useState<string>("");
-  const [calendarDate, setCalendarDate] = useState<string>("0");
+  const [currentTimeString, setCurrentTimeString] = useState<string>("");
+  const [currentCalendarDate, setCurrentCalendarDate] = useState<string>("0");
   // FIXME: Use Departure type?
   const [departureTimes, setDepartureTimes] = useState(tempTimes);
   const [nextRows, setNextRows] = useState(initialDisplay);
@@ -51,31 +53,47 @@ export default function MiniBoard(
   useEffect(() => {
     const timer = setInterval(() => {
       let now = new Date().toLocaleString('en-US', timeOptions);
-      setTimeString(now);
-      setCalendarDate(now.split(" ")[2]); // Trigger an API fetch every day
+      setCurrentTimeString(now);
+      setCurrentCalendarDate(now.split(" ")[2]); // Trigger an API fetch every day
     }, 1000);
     return () => clearInterval(timer);
   }, []);
 
-  // Fetch departure times.
+  // Fetch initial departure times.
   useEffect(() => {
-    setNextRows(getNextRows(3));
-    if (calendarDate === "0") return;
-    console.log(`Load stop #${stopId} times for ${calendarDate}`);
-    // FIXME: Fetch today's departure times for this stop
-    // const times = getDepartureTimes(stopId)
-    const times = tempTimes;
-    setDepartureTimes(tempTimes);
+    getDepartureTimes(stopId)
+      .then((times) => {
+        console.log(`Fetched departure times for stop ${stopId}:`, times);
+        setDepartureTimes(times);
+        setLastDeparture(times.slice(-1)[0]);
+        setNextRows(getNextRows(3));
+      })
+      .catch((error) => {
+        console.error(`Error fetching departure times for stop ${stopId}:`, error);
+        setDepartureTimes(tempTimes);
+        setLastDeparture(tempTimes.slice(-1)[0]);
+        setNextRows(getNextRows(3));
+      });
+
     rowsNeedUpdating.current = true;
-  }, [calendarDate, stopId]);
+  }, []);
 
   // FIXME: update the rows without triggering a re-render
-  // useEffect(() => {
-  //   if (rowsNeedUpdating.current) {
-  //     setNextRows(getNextRows(3));
-  //   }
+  useEffect(() => {
+    console.log(`Current time: ${currentTimeString} for stop ${stopId}. Update? ${rowsNeedUpdating.current}`);
+    if (rowsNeedUpdating.current) {
+      setNextRows(getNextRows(3));
+      rowsNeedUpdating.current = false;
+    }
   // }, [getNextRows, rowsNeedUpdating]);
-
+  }, [currentTimeString, departureTimes]);
+    
+  /**
+   * From the previously fetched departure times, get the next n rows
+   * of departure times that are after the current time.
+   * @param numRows How many rows to return
+   * @returns An array of the next n rows of departure times
+   */
   function getNextRows(numRows: number) {
     rowsNeedUpdating.current = false;
     const currentTime = new Date().toLocaleTimeString('en-US', 
@@ -86,6 +104,8 @@ export default function MiniBoard(
     })
     const remainingRows = departureTimes.filter((row) => row.departure_time > currentTime);
     const nextRows = remainingRows.slice(0, numRows);
+    console.log(`remainingRows = ${remainingRows.length}, nextRows = ${nextRows.length}`);
+    console.log(`Next ${numRows} rows for stop ${stopId}:`, nextRows);
     // Fill empty rows with empty strings
     while (nextRows.length < numRows) {
       nextRows.push({departure_time: "", stop_headsign: "", trip_headsign: ""});
@@ -94,7 +114,6 @@ export default function MiniBoard(
   }
 
   function getLastDeparture() {
-    // TODO: use actual list
     return departureTimes.slice(-1);
   }
 
@@ -104,15 +123,12 @@ export default function MiniBoard(
     const then = new Date(now.toDateString() + " " + time);
     const diff = then.getTime() - now.getTime();
     const minutes = Math.floor(diff / 1000 / 60);
-    if (minutes < -2) {
-      rowsNeedUpdating.current = true;
-      setNextRows(getNextRows(3));
-    }
-    if (minutes < 0) return "(DEP)";
-    if (minutes === 0) return "(NOW)";
-    if (minutes < 60) return `(${minutes} min)`;
-    if (minutes < 120) return `(${1}h ${minutes - 60}m)`;
-    return `(${Math.floor(minutes / 60)} hrs)`;
+    if (minutes < -2) rowsNeedUpdating.current = true; // Remove this row.
+    if (minutes < 0) return "(DEP)"; // Display if the bus has departed in th last 2 minutes.
+    if (minutes === 0) return "(NOW)"; // Display if the bus is departing in less than a minute.
+    if (minutes < 60) return `(${minutes} min)`; // Display if the bus is departing in less than an hour.
+    if (minutes < 120) return `(${1}h ${minutes - 60}m)`; // Display if the bus is departing in less than 2 hours.
+    return `(${Math.floor(minutes / 60)} hrs)`; // Display if the bus is departing in more than 2 hours.
   }
 
   return (
@@ -120,7 +136,7 @@ export default function MiniBoard(
       <div className={styles["card-title"]}>{stopName} ({stopId})</div>
       <div className={styles["card-body"]}>
 
-        <div className={styles.datetime}>{timeString}</div>
+        <div className={styles.datetime}>{currentTimeString}</div>
 
         {nextRows.map((row) => {
           return (
@@ -144,14 +160,23 @@ export default function MiniBoard(
   )
 }
 
+/**
+ * Fetches the departure times for a given stop ID for the current date from the API.
+ * @param stopId The ID of the stop to fetch departure times for
+ * @returns A promise that resolves to the departure times for the stop
+ */
 async function getDepartureTimes(stopId: string) {
-  const url = `${process.env.API_URL}?stop=${stopId}&date=today`;
-  // const response = await fetch(url);
-  // const data = await response.json();
-  const now = new Date()
-    .toLocaleDateString('en-GB', {timeZone: 'America/Los_Angeles'})
-    .split('').reverse().join('');
-  console.log(`Fetching ${stopId} times for ${now}`);
-  
-  return tempTimes;
+  console.log(`Fetching departure times for stop ${stopId}`);
+  const url = `${process.env.API_URL}/api/departures?stop=${stopId}&date=today`;
+  // const url = `${process.env.API_URL}/api/departures?stop=${stopId}&date=20250609`;
+  const response = await fetch(url);
+  const data = await response.json();
+  // const now = new Date()
+    // .toLocaleDateString('en-GB', {timeZone: 'America/Los_Angeles'});
+    // .split('').reverse().join('');
+  // console.log(`Fetching ${stopId} times for ${now}`);
+  // Fetch the actual data from the API
+  console.log(`Data: ${data}`);
+
+  return data;
 }
