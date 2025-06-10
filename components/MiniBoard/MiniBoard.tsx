@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
 import styles from './MiniBoard.module.css';
-import { get } from 'http';
 
 const tempTimes = [
   {"departure_time":"06:12:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
@@ -170,6 +169,7 @@ export default function MiniBoard(
  */
 async function getDepartureTimes(stopId: string) {
   console.log(`Fetching departure times for stop ${stopId}`);
+  // const url = `api/departures?stop=${stopId}&date=today`;
   const url = `${process.env.API_URL}/api/departures?stop=${stopId}&date=today`;
   // const url = `${process.env.API_URL}/api/departures?stop=${stopId}&date=20250609`;
   const response = await fetch(url);
