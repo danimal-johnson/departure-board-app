@@ -1,0 +1,75 @@
+.card {
+  /* border: 2px solid black; */
+  /* border-radius: 5px; */
+  margin: 0; 
+  /* margin: 1rem .5rem; */
+  padding: 0;
+  /* padding: 5px 5px; */
+  background-color: lightsteelblue;
+  font-family: Arial, sans-serif;
+  width: 100%;
+  /* max-width: 450px; */
+  font-size: 2rem;
+}
+
+.card-title {
+  color: black;
+  font-weight: bold;
+  border-bottom: 1px solid black;
+}
+.card-body {
+  display: grid;
+  /* FIXME: This needs some fine-tuning. */
+  grid-template-columns: 1fr auto auto;
+  color: yellow;
+  background: #333;
+  font-family: text;
+  /* column-gap: 0; */
+/*   padding: 3px; */
+}
+/* Date/time row and last blank row only */
+.card-body > div {
+/*   border: 1px solid; */
+  min-height: 1.3em;
+  padding: 3px;
+}
+/* The last departure row */
+.card-body>div:nth-child(6n+2),
+.card-body>div:nth-child(6n+3),
+.card-body>div:nth-child(6n+4)
+{
+     background: black;
+}
+
+.row {
+  display: contents; /* Makes "row" invisible but keeps its children visible */  
+}
+.row > div {
+  padding: 0.2rem;
+}
+.row:nth-child(even) > div {
+  background: black;
+}
+
+.datetime {
+  grid-column-start: 1;
+  grid-column-end: 4;
+  color: orange;
+}
+.row > div.headsign{
+  grid-column: 1;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+.row.remain {
+  grid-column: 2;
+  justify-self: end;
+}
+.row.tod {
+  grid-column: 3;
+  justify-self: end;
+}
+.dep {
+  color: red;
+}

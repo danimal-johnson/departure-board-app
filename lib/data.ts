@@ -1,3 +1,7 @@
+// This file contains static data for the Springfield EmX app.
+// It simulates network requests to fetch departure times and alerts.
+// It is for testing purposes only.
+
 const delay = (milliseconds: number) => {
   return new Promise((resolve) => {
     setTimeout(() => {

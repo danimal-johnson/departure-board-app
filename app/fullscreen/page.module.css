@@ -1,0 +1,48 @@
+/* .title {
+  margin-bottom: .5rem;
+  margin-top: 1rem;
+  padding: 5px 5px;
+} */
+
+/*
+.title h1 {
+  New property. Does not break unsupported browsers.
+  Not yet supported by Next.js
+  text-wrap: balance; 
+}
+*/
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.card {
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 1rem .5rem;
+  padding: 5px 5px;
+  background-color: lightsteelblue;
+  font-family: Arial, sans-serif;
+  width: 95%;
+  max-width: 450px;
+}
+
+.card-title {
+  color: black;
+  font-size: 2em;
+}
+.card-body {
+  display: grid;
+  color: yellow;
+  background: #333;
+  font-family: text;
+}
+.card-body > div {
+  min-height: 1.3em;
+  padding: 3px;
+}
