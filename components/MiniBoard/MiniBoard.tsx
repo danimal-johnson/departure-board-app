@@ -140,13 +140,13 @@ export default function MiniBoard(
 
         <div className={styles.datetime}>{currentTimeString}</div>
 
-        {nextRows.map((row) => {
+        {nextRows.map((row, idx) => {
           return (
-            <>
-            <div className={styles.headsign}>{row.trip_headsign}</div>
-            <div className={styles.remain}>{timeRemaining(row.departure_time)}</div>
-            <div className={styles.tod}>{row.departure_time.slice(0,5)}</div>
-            </>
+            <div className={styles.row} key={idx}>
+              <div className={styles.headsign}>{row.trip_headsign}</div>
+              <div className={styles.remain}>{timeRemaining(row.departure_time)}</div>
+              <div className={styles.tod}>{row.departure_time.slice(0,5)}</div>
+            </div>
           )
         })}
 
@@ -169,17 +169,11 @@ export default function MiniBoard(
  */
 async function getDepartureTimes(stopId: string) {
   console.log(`Fetching departure times for stop ${stopId}`);
-  // const url = `api/departures?stop=${stopId}&date=today`;
+  // const url = `api/departures?stop=${stopId}&date=today`; // Relative URL would be ideal
+  // const url = `${process.env.API_URL}/api/departures?stop=${stopId}&date=20250609`; // For testing
   const url = `${process.env.API_URL}/api/departures?stop=${stopId}&date=today`;
-  // const url = `${process.env.API_URL}/api/departures?stop=${stopId}&date=20250609`;
   const response = await fetch(url);
   const data = await response.json();
-  // const now = new Date()
-    // .toLocaleDateString('en-GB', {timeZone: 'America/Los_Angeles'});
-    // .split('').reverse().join('');
-  // console.log(`Fetching ${stopId} times for ${now}`);
-  // Fetch the actual data from the API
-  // console.log(`Data: ${data}`);
 
   return data;
 }

@@ -23,25 +23,35 @@
 }
 .card-body {
   display: grid;
-  /* FIXME: The 1st one is wrong. The 2nd one needs fine-tuning. */
-  /* grid-columns: 80% 1fr 1fr; */
-  /* grid-template-columns: 80% 1fr 1fr; */
+  /* FIXME: This needs some fine-tuning. */
+  grid-template-columns: 1fr auto auto;
   color: yellow;
   background: #333;
   font-family: text;
+  /* column-gap: 0; */
 /*   padding: 3px; */
 }
+/* Date/time row and last blank row only */
 .card-body > div {
 /*   border: 1px solid; */
   min-height: 1.3em;
   padding: 3px;
 }
+/* The last departure row */
 .card-body>div:nth-child(6n+2),
 .card-body>div:nth-child(6n+3),
 .card-body>div:nth-child(6n+4)
 {
-/*   background: #1f1f1f; */
-/*   background: gray; */
+     background: black;
+}
+
+.row {
+  display: contents; /* Makes "row" invisible but keeps its children visible */  
+}
+.row > div {
+  padding: 0.2rem;
+}
+.row:nth-child(even) > div {
   background: black;
 }
 
@@ -50,17 +60,20 @@
   grid-column-end: 4;
   color: orange;
 }
-.headsign{
-  grid-column-start: 1;
+.row > div.headsign{
+  /* grid-column-start: 1; */
+  grid-column: 1;
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
 }
-.remain {
-  grid-column-start: 2;
+.row.remain {
+  grid-column: 2;
+  justify-self: end;
 }
-.tod {
-  grid-column-start: 3;
+.row.tod {
+  grid-column: 3;
+  justify-self: end;
 }
 .dep {
   color: red;
