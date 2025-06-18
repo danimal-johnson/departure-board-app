@@ -1,7 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
-import Link from 'next/link';
-import styles from './MiniBoard.module.css';
+import styles from './FullBoard.module.css';
 
 const tempTimes = [
   {"departure_time":"06:12:00","stop_headsign":"101 EmX EUGENE STATION","trip_headsign":"103 EmX WEST 11TH <> COMMERCE STATION"},
@@ -32,7 +31,7 @@ type Departure = {
   trip_headsign: string;
 }
 
-export default function MiniBoard(
+export default function FullBoard(
   { stopId, stopName }: { stopId: string, stopName: string }) {
 
   const [currentTimeString, setCurrentTimeString] = useState<string>("");
@@ -42,6 +41,7 @@ export default function MiniBoard(
   const [nextRows, setNextRows] = useState(initialDisplay);
   const [lastDeparture, setLastDeparture] = useState(
     {
+      // Initial values
       "departure_time":"23:25:00",
       "stop_headsign":"101 EmX EUGENE STATION",
       "trip_headsign":"101 EmX EUGENE STATION"
@@ -85,7 +85,7 @@ export default function MiniBoard(
   useEffect(() => {
     console.log(`Current time: ${currentTimeString} for stop ${stopId}. Update? ${rowsNeedUpdating.current}`);
     if (rowsNeedUpdating.current) {
-      setNextRows(getNextRows(3));
+      setNextRows(getNextRows(6));
       rowsNeedUpdating.current = false;
     }
   // }, [getNextRows, rowsNeedUpdating]);
@@ -136,7 +136,7 @@ export default function MiniBoard(
 
   return (
     <div className={styles.card}>
-      <div className={styles["card-title"]}><Link href={`/fullscreen?stop=${stopId}`}>{stopName} ({stopId})</Link></div>
+      <div className={styles["card-title"]}>{stopName} ({stopId})</div>
       <div className={styles["card-body"]}>
 
         <div className={styles.datetime}>{currentTimeString}</div>

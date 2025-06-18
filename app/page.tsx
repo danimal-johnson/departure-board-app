@@ -27,7 +27,11 @@ async function getServiceInfo() {
   // TODO: Handle errors
   return res.json();
 }
-
+/**
+ * Home page for the Portable Departure Boards application.
+ * To refresh this static page, revalidate the 'schedule' tag.
+ * (./api/revalidate?tag=schedule)
+ */
 export default async function Home() {
   let now = new Date();
   let serviceInfo: ServiceInfo = await getServiceInfo();
@@ -35,12 +39,6 @@ export default async function Home() {
 
   return (
     <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Page last updated:&nbsp;
-          <code className={styles.code}>{now.toLocaleString()}</code>
-        </p>
-      </div>
 
       <div className={styles.center}>
         {errorStatus ? (
@@ -49,7 +47,7 @@ export default async function Home() {
           <div>
             <div className={styles.blurb}>
               <h1>Portable Departure Boards</h1>
-              <p>View your transit departure board wherever you are.</p>
+              <p>View your transit departure board from anywhere.</p>
             </div>
             <div className={styles.blurb}>
               <h2>Serving {serviceInfo.agency_id} ({serviceInfo.name})</h2>
@@ -102,6 +100,14 @@ export default async function Home() {
             Go to the deployed version of the API.
           </p>
         </a>
+      </div>
+
+      {/* Last Updated */}
+      <div className={styles.description}>
+        <p>
+          Page last updated:&nbsp;
+          <code className={styles.code}>{now.toLocaleString()}</code>
+        </p>
       </div>
     </main>
   )

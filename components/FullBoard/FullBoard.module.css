@@ -1,19 +1,15 @@
-.title {
-  /* border: 2px solid green; */
-  margin-bottom: .5rem;
-  margin-top: 1rem;
-  padding: 5px 5px;
-}
-
 .card {
-  border: 2px solid black;
-  border-radius: 5px;
-  margin: 1rem .5rem;
-  padding: 5px 5px;
+  /* border: 2px solid black; */
+  /* border-radius: 5px; */
+  margin: 0; 
+  /* margin: 1rem .5rem; */
+  padding: 0;
+  /* padding: 5px 5px; */
   background-color: lightsteelblue;
   font-family: Arial, sans-serif;
-  width: 95%;
-  max-width: 450px;
+  width: 100%;
+  /* max-width: 450px; */
+  font-size: 2rem;
 }
 
 .card-title {
@@ -61,7 +57,6 @@
   color: orange;
 }
 .row > div.headsign{
-  /* grid-column-start: 1; */
   grid-column: 1;
   white-space: nowrap;
   text-overflow: ellipsis;
