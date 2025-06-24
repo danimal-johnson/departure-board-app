@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
 import styles from './FullBoard.module.css';
 
 const tempTimes = [
@@ -8,7 +9,7 @@ const tempTimes = [
 
 const initialDisplay = [
   {
-    "departure_time":"06:12:00",
+    "departure_time":"00:00:00",
     "stop_headsign":"Loading...",
     "trip_headsign":"Loading..."
   }
@@ -76,7 +77,6 @@ export default function FullBoard(
   );
   const rowsNeedUpdating = useRef(false);
   const orientation = useOrientation();
-  console.log(`Current orientation: ${orientation}`);
 
   // Clock.
   useEffect(() => {
@@ -145,7 +145,7 @@ export default function FullBoard(
     return nextRows;
   }
 
-  function getLastDeparture() {
+  function getLastDeparture() { // TODO: Unused
     return departureTimes.slice(-1);
   }
 
@@ -165,7 +165,7 @@ export default function FullBoard(
 
   return (
     <div className={styles.card}>
-      <div className={styles["card-title"]}>{stopName} ({stopId})</div>
+      <div className={styles["card-title"]}><Link href="/favorites">{stopName} ({stopId})</Link></div>
       <div className={styles["card-body"]}>
 
         <div className={styles.datetime}>{currentTimeString}</div>
