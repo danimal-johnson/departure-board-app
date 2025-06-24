@@ -31,6 +31,33 @@ type Departure = {
   trip_headsign: string;
 }
 
+/* Move this hook to a separate file */
+/**
+ * Custom hook to get the current screen orientation.
+ * @returns The current screen orientation ("portrait" or "landscape").
+ * To use this hook, call it in your component:
+ *   const orientation = useOrientation();
+ *   console.log(`Current orientation: ${orientation}`);
+ */
+function useOrientation() {
+  const [orientation, setOrientation] = useState(window.matchMedia("(orientation: portrait)").matches ? "portrait" : "landscape");
+
+  useEffect(() => {
+    const handler = () => setOrientation(window.matchMedia("(orientation: portrait)").matches ? "portrait" : "landscape");
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
+
+  return orientation;
+}
+
+// Checking orientation without the hook:
+// if window.matchMedia("(orientation: portrait)").matches {
+//    //  console.log("Portrait");
+// } else {
+//    //  console.log("Landscape");
+// }
+
 export default function FullBoard(
   { stopId, stopName }: { stopId: string, stopName: string }) {
 
@@ -42,12 +69,14 @@ export default function FullBoard(
   const [lastDeparture, setLastDeparture] = useState(
     {
       // Initial values
-      "departure_time":"23:25:00",
+      "departure_time":"00:00:00",
       "stop_headsign":"101 EmX EUGENE STATION",
       "trip_headsign":"101 EmX EUGENE STATION"
     }
   );
   const rowsNeedUpdating = useRef(false);
+  const orientation = useOrientation();
+  console.log(`Current orientation: ${orientation}`);
 
   // Clock.
   useEffect(() => {
@@ -154,10 +183,11 @@ export default function FullBoard(
         <div className={styles.headsign}></div>
         <div className={styles.remain}></div>
         <div className={styles.tod}></div>
-
+        
         <div className={styles.headsign}>Last departure</div>
         <div className={styles.remain}>{timeRemaining(lastDeparture.departure_time)}</div>
         <div className={styles.tod}>{lastDeparture.departure_time.slice(0,5)}</div>
+        
       </div>
     </div>
   )

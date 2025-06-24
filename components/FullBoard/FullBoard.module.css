@@ -1,6 +1,17 @@
+
+@media (orientation: landscape) {
+  /* .card { border: 2px solid pink; } */
+}
+@media (orientation: portrait) {
+  /* .card { border: 2px solid green; } */
+}
+
 .card {
-  /* border: 2px solid black; */
-  /* border-radius: 5px; */
+  --title-height: 2.5rem;
+  --content-height: calc(100vh - var(--title-height));
+  --card-width: 100%;
+  --card-height: 100vh;
+
   margin: 0; 
   /* margin: 1rem .5rem; */
   padding: 0;
@@ -10,22 +21,25 @@
   width: 100%;
   /* max-width: 450px; */
   font-size: 2rem;
+  min-height: var(--card-height);
 }
 
 .card-title {
+  height: var(--title-height);
   color: black;
   font-weight: bold;
   border-bottom: 1px solid black;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .card-body {
+  min-height: var(--content-height);
   display: grid;
-  /* FIXME: This needs some fine-tuning. */
   grid-template-columns: 1fr auto auto;
   color: yellow;
   background: #333;
   font-family: text;
-  /* column-gap: 0; */
-/*   padding: 3px; */
 }
 /* Date/time row and last blank row only */
 .card-body > div {
@@ -33,7 +47,7 @@
   min-height: 1.3em;
   padding: 3px;
 }
-/* The last departure row */
+/* The last (blank) departure row */
 .card-body>div:nth-child(6n+2),
 .card-body>div:nth-child(6n+3),
 .card-body>div:nth-child(6n+4)
@@ -49,6 +63,9 @@
 }
 .row:nth-child(even) > div {
   background: black;
+}
+.lastrow {
+  background: purple;
 }
 
 .datetime {
