@@ -1,15 +1,12 @@
 import styles from './page.module.css';
 import FullBoard from '../../components/FullBoard/FullBoard';
-// import { useSearchParams } from 'next/navigation';
-
 
 /**
- * 
+ * The full-screen departure board page. (Kiosk Mode)
+ * (Server-Side Rendered. Call as `/fullscreen?stop=02507`.)
  * @param stop = The stop ID to display the departure board for.
  * If no stop ID is provided, defaults to Springfield Station Bay G (02507).
  * @returns a full-screen departure board for the specified stop.
- * This page is intended to be used in a kiosk mode, displaying the departure board
- * for a specific stop in full-screen mode.
  */
 export default async function Fullscreen({ searchParams }: { searchParams: { stop?: string } } ) {
   // Ex: /fullscreen?stop_id=02507
