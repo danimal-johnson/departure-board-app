@@ -12,6 +12,10 @@ export default function Favorites() {
       stop_id: "02120",
       stop_name: "Eugene Station, Bay T",
     },
+    { // Springfield Station Bay F
+      stop_id: "02505",
+      stop_name: "Springfield Station, Bay H",
+    },
   ]
   return (
     <div className={styles.description}>
