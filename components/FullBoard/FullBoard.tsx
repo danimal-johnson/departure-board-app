@@ -173,7 +173,7 @@ export default function FullBoard(
         {nextRows.map((row, idx) => {
           return (
             <div className={styles.row} key={idx}>
-              <div className={styles.headsign}>{row.trip_headsign}</div>
+              <div className={styles.headsign}>{row.stop_headsign}</div>
               <div className={styles.remain}>{timeRemaining(row.departure_time)}</div>
               <div className={styles.tod}>{row.departure_time.slice(0,5)}</div>
             </div>

@@ -4,17 +4,17 @@ import MiniBoard from '../../components/MiniBoard/MiniBoard';
 export default function Favorites() {
   // TODO: Add favorites to local storage
   const favorites = [
-    { // Springfield Station Bay G
-      stop_id: "02507",
-      stop_name: "Springfield Station, Bay G",
+    { // Springfield Station Bay F
+      stop_id: "02506",
+      stop_name: "Springfield Station, Bay F",
     },
     { // Eugene Station Bay T
       stop_id: "02120",
       stop_name: "Eugene Station, Bay T",
     },
-    { // Springfield Station Bay F
-      stop_id: "02505",
-      stop_name: "Springfield Station, Bay H",
+    { // Springfield Station Bay G
+      stop_id: "02507",
+      stop_name: "Springfield Station, Bay G",
     },
   ]
   return (
